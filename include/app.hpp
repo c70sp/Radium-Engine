@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef APP_HPP
 #define APP_HPP
 
@@ -21,9 +23,10 @@
 #include "./../include/mesh3d.hpp"
 #include "./../include/shader.hpp"
 #include "./../include/structs.hpp"
+#include "./../include/radium_export.hpp"
 class Mesh3D; // forward declaration
 
-class App{
+class RADIUM_API App{
     public:
         //* vvvvvvvvvv Attributes vvvvvvvvvv
 

@@ -903,7 +903,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "main"
+			"value" : "RadiumEngine"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1320,6 +1320,54 @@
 			],
 			"type" : "INTERNAL",
 			"value" : "[C:/msys64/mingw64/lib/libz.dll.a][C:/msys64/mingw64/include][c ][v1.3.1()]"
+		},
+		{
+			"name" : "RadiumEngine_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/dev/projects/C++/OpenGL/Radium Engine/build"
+		},
+		{
+			"name" : "RadiumEngine_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
+			"name" : "RadiumEngine_LIB_DEPENDS",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Dependencies for the target"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "general;glad::glad;general;glfw;general;glm::glm;general;dwmapi;"
+		},
+		{
+			"name" : "RadiumEngine_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/dev/projects/C++/OpenGL/Radium Engine"
 		},
 		{
 			"name" : "ZLIB_INCLUDE_DIR",

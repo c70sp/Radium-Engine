@@ -2,10 +2,13 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "main.exe"
+			"path" : "libRadiumEngine.dll"
 		},
 		{
-			"path" : "main.pdb"
+			"path" : "libRadiumEngine.dll.a"
+		},
+		{
+			"path" : "libRadiumEngine.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -13,8 +16,9 @@
 	{
 		"commands" : 
 		[
-			"add_executable",
+			"add_library",
 			"target_link_libraries",
+			"target_compile_definitions",
 			"target_include_directories"
 		],
 		"files" : 
@@ -41,6 +45,12 @@
 			{
 				"command" : 2,
 				"file" : 0,
+				"line" : 25,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
 				"line" : 20,
 				"parent" : 0
 			}
@@ -60,12 +70,19 @@
 				{
 					"backtrace" : 2,
 					"define" : "GLFW_DLL"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "RADIUMENGINE_EXPORTS"
+				},
+				{
+					"define" : "RadiumEngine_EXPORTS"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "C:/dev/projects/C++/OpenGL/Radium Engine/include"
 				},
 				{
@@ -102,15 +119,11 @@
 			]
 		}
 	],
-	"id" : "main::@6890427a1f51a3e7e1df",
+	"id" : "RadiumEngine::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
 		[
-			{
-				"fragment" : "-g",
-				"role" : "flags"
-			},
 			{
 				"fragment" : "",
 				"role" : "flags"
@@ -142,8 +155,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "main",
-	"nameOnDisk" : "main.exe",
+	"name" : "RadiumEngine",
+	"nameOnDisk" : "libRadiumEngine.dll",
 	"paths" : 
 	{
 		"build" : ".",
@@ -224,5 +237,5 @@
 			"sourceGroupIndex" : 0
 		}
 	],
-	"type" : "EXECUTABLE"
+	"type" : "SHARED_LIBRARY"
 }

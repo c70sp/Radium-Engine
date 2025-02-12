@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(main)
+project(RadiumEngine)
 
 set(CMAKE_TOOLCHAIN_FILE "C:/dev/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
@@ -15,8 +15,11 @@ find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
 file(GLOB SRC_FILES "src/*.cpp") # GLOB_RECURSE falls nested
-add_executable(main ${SRC_FILES})
+add_library(RadiumEngine SHARED ${SRC_FILES})
 
-target_include_directories(main PRIVATE include)
+target_include_directories(RadiumEngine PRIVATE include)
 
-target_link_libraries(main PRIVATE glad::glad glfw glm::glm dwmapi)
+target_link_libraries(RadiumEngine PRIVATE glad::glad glfw glm::glm dwmapi)
+
+# Define the macro for DLL export
+target_compile_definitions(RadiumEngine PRIVATE RADIUMENGINE_EXPORTS)

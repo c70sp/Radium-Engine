@@ -116,24 +116,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named main
+# Target rules for targets named RadiumEngine
 
 # Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 main
-.PHONY : main
+RadiumEngine: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 RadiumEngine
+.PHONY : RadiumEngine
 
 # fast build rule for target.
-main/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/build
-.PHONY : main/fast
+RadiumEngine/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/build
+.PHONY : RadiumEngine/fast
 
 src/app.obj: src/app.cpp.obj
 .PHONY : src/app.obj
 
 # target to build an object file
 src/app.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/app.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/app.cpp.obj
 .PHONY : src/app.cpp.obj
 
 src/app.i: src/app.cpp.i
@@ -141,7 +141,7 @@ src/app.i: src/app.cpp.i
 
 # target to preprocess a source file
 src/app.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/app.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/app.cpp.i
 .PHONY : src/app.cpp.i
 
 src/app.s: src/app.cpp.s
@@ -149,7 +149,7 @@ src/app.s: src/app.cpp.s
 
 # target to generate assembly for a file
 src/app.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/app.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/app.cpp.s
 .PHONY : src/app.cpp.s
 
 src/atom.obj: src/atom.cpp.obj
@@ -157,7 +157,7 @@ src/atom.obj: src/atom.cpp.obj
 
 # target to build an object file
 src/atom.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/atom.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/atom.cpp.obj
 .PHONY : src/atom.cpp.obj
 
 src/atom.i: src/atom.cpp.i
@@ -165,7 +165,7 @@ src/atom.i: src/atom.cpp.i
 
 # target to preprocess a source file
 src/atom.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/atom.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/atom.cpp.i
 .PHONY : src/atom.cpp.i
 
 src/atom.s: src/atom.cpp.s
@@ -173,7 +173,7 @@ src/atom.s: src/atom.cpp.s
 
 # target to generate assembly for a file
 src/atom.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/atom.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/atom.cpp.s
 .PHONY : src/atom.cpp.s
 
 src/controlRod.obj: src/controlRod.cpp.obj
@@ -181,7 +181,7 @@ src/controlRod.obj: src/controlRod.cpp.obj
 
 # target to build an object file
 src/controlRod.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/controlRod.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/controlRod.cpp.obj
 .PHONY : src/controlRod.cpp.obj
 
 src/controlRod.i: src/controlRod.cpp.i
@@ -189,7 +189,7 @@ src/controlRod.i: src/controlRod.cpp.i
 
 # target to preprocess a source file
 src/controlRod.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/controlRod.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/controlRod.cpp.i
 .PHONY : src/controlRod.cpp.i
 
 src/controlRod.s: src/controlRod.cpp.s
@@ -197,7 +197,7 @@ src/controlRod.s: src/controlRod.cpp.s
 
 # target to generate assembly for a file
 src/controlRod.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/controlRod.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/controlRod.cpp.s
 .PHONY : src/controlRod.cpp.s
 
 src/main.obj: src/main.cpp.obj
@@ -205,7 +205,7 @@ src/main.obj: src/main.cpp.obj
 
 # target to build an object file
 src/main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/main.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/main.cpp.obj
 .PHONY : src/main.cpp.obj
 
 src/main.i: src/main.cpp.i
@@ -213,7 +213,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -221,7 +221,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/mesh3d.obj: src/mesh3d.cpp.obj
@@ -229,7 +229,7 @@ src/mesh3d.obj: src/mesh3d.cpp.obj
 
 # target to build an object file
 src/mesh3d.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/mesh3d.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/mesh3d.cpp.obj
 .PHONY : src/mesh3d.cpp.obj
 
 src/mesh3d.i: src/mesh3d.cpp.i
@@ -237,7 +237,7 @@ src/mesh3d.i: src/mesh3d.cpp.i
 
 # target to preprocess a source file
 src/mesh3d.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/mesh3d.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/mesh3d.cpp.i
 .PHONY : src/mesh3d.cpp.i
 
 src/mesh3d.s: src/mesh3d.cpp.s
@@ -245,7 +245,7 @@ src/mesh3d.s: src/mesh3d.cpp.s
 
 # target to generate assembly for a file
 src/mesh3d.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/mesh3d.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/mesh3d.cpp.s
 .PHONY : src/mesh3d.cpp.s
 
 src/neutron.obj: src/neutron.cpp.obj
@@ -253,7 +253,7 @@ src/neutron.obj: src/neutron.cpp.obj
 
 # target to build an object file
 src/neutron.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/neutron.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/neutron.cpp.obj
 .PHONY : src/neutron.cpp.obj
 
 src/neutron.i: src/neutron.cpp.i
@@ -261,7 +261,7 @@ src/neutron.i: src/neutron.cpp.i
 
 # target to preprocess a source file
 src/neutron.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/neutron.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/neutron.cpp.i
 .PHONY : src/neutron.cpp.i
 
 src/neutron.s: src/neutron.cpp.s
@@ -269,7 +269,7 @@ src/neutron.s: src/neutron.cpp.s
 
 # target to generate assembly for a file
 src/neutron.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/neutron.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/neutron.cpp.s
 .PHONY : src/neutron.cpp.s
 
 src/reactor.obj: src/reactor.cpp.obj
@@ -277,7 +277,7 @@ src/reactor.obj: src/reactor.cpp.obj
 
 # target to build an object file
 src/reactor.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/reactor.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/reactor.cpp.obj
 .PHONY : src/reactor.cpp.obj
 
 src/reactor.i: src/reactor.cpp.i
@@ -285,7 +285,7 @@ src/reactor.i: src/reactor.cpp.i
 
 # target to preprocess a source file
 src/reactor.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/reactor.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/reactor.cpp.i
 .PHONY : src/reactor.cpp.i
 
 src/reactor.s: src/reactor.cpp.s
@@ -293,7 +293,7 @@ src/reactor.s: src/reactor.cpp.s
 
 # target to generate assembly for a file
 src/reactor.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/reactor.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/reactor.cpp.s
 .PHONY : src/reactor.cpp.s
 
 src/shader.obj: src/shader.cpp.obj
@@ -301,7 +301,7 @@ src/shader.obj: src/shader.cpp.obj
 
 # target to build an object file
 src/shader.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/shader.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/shader.cpp.obj
 .PHONY : src/shader.cpp.obj
 
 src/shader.i: src/shader.cpp.i
@@ -309,7 +309,7 @@ src/shader.i: src/shader.cpp.i
 
 # target to preprocess a source file
 src/shader.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/shader.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/shader.cpp.i
 .PHONY : src/shader.cpp.i
 
 src/shader.s: src/shader.cpp.s
@@ -317,7 +317,7 @@ src/shader.s: src/shader.cpp.s
 
 # target to generate assembly for a file
 src/shader.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/shader.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/shader.cpp.s
 .PHONY : src/shader.cpp.s
 
 src/utils.obj: src/utils.cpp.obj
@@ -325,7 +325,7 @@ src/utils.obj: src/utils.cpp.obj
 
 # target to build an object file
 src/utils.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/utils.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/utils.cpp.obj
 .PHONY : src/utils.cpp.obj
 
 src/utils.i: src/utils.cpp.i
@@ -333,7 +333,7 @@ src/utils.i: src/utils.cpp.i
 
 # target to preprocess a source file
 src/utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/utils.cpp.i
 .PHONY : src/utils.cpp.i
 
 src/utils.s: src/utils.cpp.s
@@ -341,7 +341,7 @@ src/utils.s: src/utils.cpp.s
 
 # target to generate assembly for a file
 src/utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/src/utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\RadiumEngine.dir\build.make CMakeFiles/RadiumEngine.dir/src/utils.cpp.s
 .PHONY : src/utils.cpp.s
 
 # Help Target
@@ -352,7 +352,7 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... main
+	@echo ... RadiumEngine
 	@echo ... src/app.obj
 	@echo ... src/app.i
 	@echo ... src/app.s

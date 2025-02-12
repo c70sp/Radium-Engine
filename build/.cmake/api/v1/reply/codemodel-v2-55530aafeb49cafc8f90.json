@@ -27,7 +27,7 @@
 					[
 						0
 					],
-					"name" : "main",
+					"name" : "RadiumEngine",
 					"targetIndexes" : 
 					[
 						0
@@ -38,9 +38,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "main::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main-Debug-2099da7fb6e8f1392b49.json",
-					"name" : "main",
+					"id" : "RadiumEngine::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-RadiumEngine-Debug-734512011c0b749e809c.json",
+					"name" : "RadiumEngine",
 					"projectIndex" : 0
 				}
 			]
