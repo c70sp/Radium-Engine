@@ -17,6 +17,9 @@
 #include <unordered_set> // for keeping track of "divs"s
 #include <unordered_map>
 
+// Own libs
+#include "./../include/radium_export.hpp"
+
 struct ShaderInfo{
     std::string name;
     GLuint ID;
@@ -30,7 +33,7 @@ struct PipelineInfo{
     GLuint fragmentShaderID;
 };
 
-class Shader{
+class RADIUM_API Shader{
     public:
         // Gets all shaders from shader dir, name = file name, type indicated by name start (v_, f_ or g_)
         void compileAllShaders();

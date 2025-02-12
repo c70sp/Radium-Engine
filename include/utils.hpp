@@ -4,15 +4,16 @@
 #include <string>
 #include <glad/glad.h>
 #include "./structs.hpp"
+#include "./../include/radium_export.hpp"
 
 namespace utils{
-    std::string loadFileAsString(const std::string& filename);
+    RADIUM_API std::string loadFileAsString(const std::string& filename);
     
-    void checkGLError(const std::string& location);
+    RADIUM_API void checkGLError(const std::string& location);
 
-    float getRandomFloat(float min, float max);
-    int getRandomInt(int min, int max);
-    float getDistance(Point p1, Point p2);
+    RADIUM_API float getRandomFloat(float min, float max);
+    RADIUM_API int getRandomInt(int min, int max);
+    RADIUM_API float getDistance(Point p1, Point p2);
 }
 
 #endif // UTILS_HPP

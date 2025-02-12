@@ -17,9 +17,10 @@
 
 // Own libs
 #include "./app.hpp"
+#include "./../include/radium_export.hpp"
 class App; // forward decleration
 
-class Mesh3D{
+class RADIUM_API Mesh3D{
     public:
         Mesh3D(App* app) : mApp(app) {};
 
