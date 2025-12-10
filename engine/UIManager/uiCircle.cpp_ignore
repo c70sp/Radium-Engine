@@ -1,0 +1,52 @@
+#include "UIManager/uiCircle.hpp"
+
+void UICircle::init(){
+    createBuffers();
+}
+
+void UICircle::createBuffers(){
+    std::vector<GLfloat> vertices = genVertexData();
+    std::vector<GLuint> indices = genIndexData();
+
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+    
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_VERTEX_ARRAY, VBO);
+    glBufferData(GL_VERTEX_ARRAY, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void*)(2 * sizeof(GLfloat)));
+
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_INDEX_ARRAY, EBO);
+    glBufferData(GL_INDEX_ARRAY, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+
+    glBindVertexArray(0);
+
+    indexSize = indices.size();
+}
+
+std::vector<GLfloat> UICircle::genVertexData(){
+    float x = position.x;
+    float y = position.y;
+
+    std::vector<GLfloat> vertices = {x, y, 0.0f};
+
+    
+}
+
+std::vector<GLuint> UICircle::genIndexData(){
+
+}
+
+void UICircle::draw(){
+    glUseProgram(program);
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, indexSize);
+
+    // Draw all children of this element (is done via base class)
+    UIElement::draw();
+}

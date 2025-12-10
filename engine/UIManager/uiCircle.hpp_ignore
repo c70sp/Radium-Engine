@@ -1,0 +1,17 @@
+#pragma once
+#include "UIManager/uiElement.hpp"
+
+class UICircle : UIElement{
+    public:
+        GLuint texID = 0;
+
+        UICircle(glm::vec2 pos, float radius, glm::vec4 color, GLuint prog) : UIElement(pos, radius, color, prog) {};
+
+        void init();
+        void updateGeometry();
+        void createBuffers();
+        std::vector<GLfloat> genVertexData();
+        std::vector<GLuint> genIndexData();
+
+        void draw() override;
+};
