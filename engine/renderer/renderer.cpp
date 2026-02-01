@@ -50,16 +50,16 @@ void Renderer::drawMesh(const Mesh3D& mesh, ShaderManager& sm, const glm::mat4 V
 glm::mat4 Renderer::createModelMatrix(TransformComponent& tc){
     glm::mat4 mm = glm::mat4(1.0f);
 
-    mm = glm::scale(mm, tc.scale);
+    mm = glm::translate(mm, tc.pos);
     mm = glm::rotate(mm, glm::radians(tc.rot.x), glm::vec3(1, 0, 0));
     mm = glm::rotate(mm, glm::radians(tc.rot.y), glm::vec3(0, 1, 0));
     mm = glm::rotate(mm, glm::radians(tc.rot.z), glm::vec3(0, 0, 1));
-    mm = glm::translate(mm, tc.pos);
+    mm = glm::scale(mm, tc.scale);
 
     return mm;
 }
 
-void Renderer::drawMesh2(const Mesh3D& mesh, TransformComponent& tc, MaterialComponent& mc, ShaderManager& sm){
+void Renderer::drawMesh2(const Mesh3D& mesh, TransformComponent& tc, MaterialComponent& mc, ShaderManager& sm, glm::mat4& VPMatrix){
     glUseProgram(mc.programID);
     GLint currentProgram = 0;
     glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgram);
@@ -69,6 +69,8 @@ void Renderer::drawMesh2(const Mesh3D& mesh, TransformComponent& tc, MaterialCom
 
     glm::mat4 mm = createModelMatrix(tc);
     sm.setUniformMat4(mc.programID, "u_ModelMatrix", mm);
+
+    sm.setUniformMat4(mc.programID, "u_VP", VPMatrix);
 
     GLenum glType = getGLIndexType(mesh.indexType);
     glDrawElements(GL_TRIANGLES, mesh.indexSize, glType, NULL);

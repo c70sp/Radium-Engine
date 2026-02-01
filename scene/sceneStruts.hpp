@@ -26,15 +26,9 @@ struct MaterialComponent{
 
 struct Entity{
     uint32_t id;
+    std::string name;
 };
 
-struct SceneStruct{
-    std::vector<Entity> entities;
-
-    std::unordered_map<uint32_t, TransformComponent> transforms;
-    std::unordered_map<uint32_t, MeshComponent> meshes;
-    std::unordered_map<uint32_t, MaterialComponent> materials;
-
-    template<typename Component>
-    std::unordered_map<uint32_t, Component>& getStorage();
+struct SceneInfo{
+    std::string name;
 };

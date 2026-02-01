@@ -8,12 +8,12 @@ int main(int argc, char** argv){
     if(argc > 1 && std::string(argv[1]) == "--editor") runEditor = true;
 
     Engine engine(1920, 1200);
-    Scene scene;
+    SceneManager sceneManager;
 
     GameCallbacks callbacks;
 
     if(runEditor){
-        Editor editor(engine, scene);
+        Editor editor(engine, sceneManager);
         
         callbacks.onInit        = [&]() {editor.init();};
         callbacks.onUpdate      = [&](float dt) {editor.update(dt);};

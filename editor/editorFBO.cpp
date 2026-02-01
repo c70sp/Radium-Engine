@@ -1,8 +1,8 @@
 #include "editor.hpp"
 
 void Editor::createFBO(){
-    int width = 1920;
-    int height = 1200;
+    int width = 640;
+    int height = 480;
 
     glGenFramebuffers(1, &mFBO);
     glBindFramebuffer(GL_FRAMEBUFFER, mFBO);

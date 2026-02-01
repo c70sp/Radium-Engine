@@ -36,17 +36,20 @@ class EditorUI{
         void createEditorUI();
 
         void startUIDraw();
-        void endUIDraw();
+        void endUIDraw(GLuint &colorTex);
 
         void renderDockspace();
 
         // Sets the specific scene
-        void setCurrentSceneStruct(SceneStruct& sceneStruct);
+        void setCurrentSceneStruct(SceneInfo& sceneStruct);
         // Sets the current scene instance (only set once at beginning, as there should only be one of them..)
         void setCurrentScene(Scene& scene);
 
+
+        glm::vec2 viewportSize;
+
     private:
-        SceneStruct* mCurrentSceneStruct;
+        SceneInfo* mCurrentSceneStruct;
         Scene* mScene;
 
         void spawnCube();

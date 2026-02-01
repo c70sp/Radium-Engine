@@ -17,4 +17,5 @@ void main(){
     vFragPos = worldPos.xyz;
     vNormal = normalize(mat3(transpose(inverse(u_ModelMatrix))) * norm);
     gl_Position = u_VP * worldPos;
+    // gl_Position = worldPos;
 }

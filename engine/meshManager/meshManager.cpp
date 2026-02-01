@@ -24,6 +24,7 @@ Mesh3D MeshManager::getModel(const std::string& name){
         }
     }
     std::cerr << "Mesh with name: " << name << " not found" << std::endl;
+
     Mesh3D mesh;
     return mesh;
 }
@@ -77,10 +78,13 @@ Mesh3D MeshManager::createMesh(AssimpMesh& mesh){
     glBindBuffer(GL_ARRAY_BUFFER, returnMesh.VBO);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
 
+    // vvv Verticies vvv
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, false, 8*sizeof(GLfloat), (void*)0);
+    // vvv Normals vvv
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, false, 8*sizeof(GLfloat), (void*)(3*sizeof(GLfloat)));
+    // vvv UV Coordinates vvv
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, false, 8*sizeof(GLfloat), (void*)(6*sizeof(GLfloat)));
 
@@ -93,6 +97,11 @@ Mesh3D MeshManager::createMesh(AssimpMesh& mesh){
 
     returnMesh.indexSize = indices.size();
     returnMesh.name = mesh.name;
+
+    returnMesh.id = lastMesh;
+    meshStorage[lastMesh] = returnMesh;
+    lastMesh++;
+
     return returnMesh;
 }
 

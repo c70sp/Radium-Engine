@@ -29,7 +29,7 @@ class Renderer{
         glm::mat4 createModelMatrix(TransformComponent& tc);
 
         void drawMesh(const Mesh3D& mesh, ShaderManager& sm, const glm::mat4 VPMatrix);
-        void drawMesh2(const Mesh3D& mesh, TransformComponent& tc, MaterialComponent& mc, ShaderManager& sm);
+        void drawMesh2(const Mesh3D& mesh, TransformComponent& tc, MaterialComponent& mc, ShaderManager& sm, glm::mat4& VPMatrix);
         void drawUI(UIManager& ui);
 
     private:

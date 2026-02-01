@@ -1,61 +1,45 @@
 #pragma once
 
+#include <string>
+#include <unordered_map>
 #include <iostream>
 
 #include "sceneStruts.hpp"
 
 class Scene{
     public:
-        Entity* createEntity(SceneStruct& scene);
+        Entity* createEntity(const std::string& name);
         void removeEntity(Entity& ent);
 
-        // For now only one scene, so no need to specifiy the scene ig
+        Entity* getEntity(const std::string& name);
+
         void saveToFile(const std::string& path);
         void loadFromFile(const std::string& path);
 
-
-
-
-
-        // Usage: scene.addComponent<TransformComponent>(entity, ...construction args...);
-        template<typename Component, typename... Args>
-        void addComponent(Entity& ent, Args&&... args){
-            auto& storage = getStorage<Component>();
-            storage[ent.id] = Component(std::forward<Args>(args)...);
+        
+        // ffs, I hate C++, need to put this shit into the header file for the template to work.. hhhh        
+        void addComponent(Entity& ent, const auto& component){
+            using T = std::decay_t<decltype(component)>;
+            
+            if constexpr (std::is_same_v<T, TransformComponent>) transforms[ent.id] = component;
+            else if constexpr (std::is_same_v<T, MeshComponent>) meshes[ent.id] = component;
+            else if constexpr (std::is_same_v<T, MaterialComponent>) materials[ent.id] = component;
+            else std::cerr << "Tried to add unsupported component!\n";
         }
-
-        // Usage: scene.removeComponent<TransformComponent>(entity);
-        template<typename Component>
-        void removeComponent(Entity& ent){
-            std::cout << "Removed comp" << std::endl;
+        template<typename T>
+        T& getComponent(Entity& ent){
+            if constexpr (std::is_same_v<T, TransformComponent>) return transforms[ent.id];
+            else if constexpr (std::is_same_v<T, MeshComponent>) return meshes[ent.id];
+            else if constexpr (std::is_same_v<T, MaterialComponent>) return materials[ent.id];
+            else std::cerr << "Component not found by getComponent()!\n";
         }
+        void removeComponent();
+        
+        std::unordered_map<uint32_t, TransformComponent> transforms;
+        std::unordered_map<uint32_t, MeshComponent> meshes;
+        std::unordered_map<uint32_t, MaterialComponent> materials;
 
-        // Usage:: scene.getComponent<TransformComponent>(entity)
-        template<typename Component>
-        Component* getComponent(Entity& ent){
-            auto& storage = getStorage<Component>();
-            auto it = storage.find(ent.id);
-            if(it != storage.end()) return &it->second;
-            return nullptr;
-        }
-
-
-
-
-
-        // vvvvvvvvvvvvvvv ATTRIBS vvvvvvvvvvvvvvv
-
+        std::vector<Entity> entities;
+        uint32_t lastEntity = 0;
     private:
-        // vvvvv getStorage() vvvvv
-        template<typename Component>
-        std::unordered_map<uint32_t, Component>& getStorage() {
-            // unique static map per component type
-            static std::unordered_map<uint32_t, Component> storage;
-            return storage;
-        }
 };
-
-template<>
-std::unordered_map<uint32_t, MeshComponent>& SceneStruct::getStorage<MeshComponent>() {
-    return meshes;
-}

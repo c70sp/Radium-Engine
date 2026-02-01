@@ -1,8 +1,8 @@
 #include "editor.hpp"
 
-Editor::Editor(Engine& engine, Scene& scene) : mEngine(engine), mScene(scene){
+Editor::Editor(Engine& engine, SceneManager& sceneManager) : mEngine(engine), mSceneManager(sceneManager){
     std::cout << "Running in editor-mode!\n";
-    std::cout << &engine << " | " << &scene << "\n";
+    std::cout << &engine << " | " << &sceneManager << "\n";
 }
 
 void Editor::init(){
@@ -11,26 +11,58 @@ void Editor::init(){
     // mEngine.getRenderer().setMeshManagerRef(mEngine.getMeshManager());
     // mEngine.getRenderer().setShaderManagerRef(mEngine.getShaderManager());
 
-    ent = mScene.createEntity(scene1);
-    TransformComponent trans;
-    MeshComponent mesh;
-    MaterialComponent mat;
-    mScene.addComponent<TransformComponent>(*ent, trans);
-    mScene.addComponent<MeshComponent>(*ent, mesh);
-    mScene.addComponent<MaterialComponent>(*ent, mat);
+    // ent = mScene.createEntity(scene1);
+    // TransformComponent trans;
+    // MeshComponent mesh;
+    // MaterialComponent mat;
+    // mScene.addComponent<TransformComponent>(*ent, trans);
+    // mScene.addComponent<MeshComponent>(*ent, mesh);
+    // mScene.addComponent<MaterialComponent>(*ent, mat);
 
-    auto trans2 = mScene.getComponent<TransformComponent>(*ent);
-    std::cout << trans2->pos.r << std::endl;
+    // auto trans2 = mScene.getComponent<TransformComponent>(*ent);
+    // std::cout << trans2->pos.r << std::endl;
 
     editorUI.imGuiSetup(mEngine.window.mWindow);
     editorUI.createEditorUI();
 
     // Explodes if not set :( (well obviously)
     // If I change shit here, I should prob. implement a simple nullptr check in EditorUI as I no longer use references here.
-    editorUI.setCurrentScene(mScene);
-    editorUI.setCurrentSceneStruct(scene1);
+    // editorUI.setCurrentScene(mScene);
+    // editorUI.setCurrentSceneStruct(scene1);
+
+    mEngine.getMeshManager().loadModel("C:\\dev\\projects\\C++\\OpenGL\\Radium Engine\\.assets\\objects\\SpaceShip1 - Export.obj");
+    Mesh3D test = mEngine.getMeshManager().getModel("Hull");
+
+    mEngine.getShaderManager().compileAllShaders();
+    GLuint basicProgram = mEngine.getShaderManager().getProgram("basic", "v_vert.glsl", "f_frag.glsl");
+
+    mScene1 = mSceneManager.createScene("Scene1");
+    Entity* ent = mScene1->createEntity("ent");
+
+    TransformComponent trans;
+    trans.pos.x = 5;
+    trans.pos.z = -30;
+    trans.scale = glm::vec3(1);
+    trans.rot.y = 45;
+    trans.rot.x = -75;
+    
+    MeshComponent mesh;
+    mesh.meshID = test.id;
+    mesh.meshName = test.name;
+
+    MaterialComponent mat;
+    mat.programID = basicProgram;
+    mat.programName = "basic";
+    mScene1->addComponent(*ent, trans);
+    mScene1->addComponent(*ent, mesh);
+    mScene1->addComponent(*ent, mat);
+
+    std::cout << mScene1->getComponent<TransformComponent>(*ent).pos.x << "\n";
 
     createFBO();
+
+
+    ENGINE->getCameraManager().createCamera(640, 480, "main");
 }
 
 void Editor::update(float dt){
@@ -41,31 +73,51 @@ void Editor::drawAllToFBO(){
     std::vector<uint32_t> drawableEntities;
 
     
-    for (auto& e : scene1.entities) {
+    for (auto& e : mScene1->entities) {
 
-        std::cout << "Has mesh: " << scene1.meshes.contains(e.id) << std::endl;
-        std::cout << "Has trans: " << scene1.transforms.contains(e.id) << std::endl;
-        std::cout << "Has mat: " << scene1.materials.contains(e.id) << std::endl;
+        if constexpr (staticConfig::debugging){
+            std::cout << "Has mesh: " << mScene1->meshes.contains(e.id) << std::endl;
+            std::cout << "Has trans: " << mScene1->transforms.contains(e.id) << std::endl;
+            std::cout << "Has mat: " << mScene1->materials.contains(e.id) << std::endl;
+        }
 
-        if (scene1.meshes.contains(e.id) &&
-            scene1.transforms.contains(e.id) &&
-            scene1.materials.contains(e.id))
+        if (mScene1->meshes.contains(e.id) &&
+            mScene1->transforms.contains(e.id) &&
+            mScene1->materials.contains(e.id))
         {
+            if constexpr (staticConfig::debugging) std::cout << "try pushback\n";
             drawableEntities.push_back(e.id);
+        }else{
+            if constexpr (staticConfig::debugging) std::cout << "no pushback\n";
         }
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, mFBO);
+    glViewport(0, 0, 640, 480);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     for (uint32_t id : drawableEntities) {
-        std::cout << "Drawing id: " << id << "\n";
-        auto& meshComp  = scene1.meshes[id];
-        auto& transComp = scene1.transforms[id];
-        auto& matComp   = scene1.materials[id];
+        if constexpr (staticConfig::debugging) std::cout << "Drawing id: " << id << "\n";
+        if(!mScene1->transforms.contains(id) &&
+           !mScene1->meshes.contains(id) &&
+           !mScene1->materials.contains(id))
+        {
+            std::cerr << "Tried to retrive non-existing compontent! Element ID: " << id << "\n";
+            continue;
+        }else{
+            auto& meshComp  = mScene1->meshes[id];
+            auto& transComp = mScene1->transforms[id];
+            auto& matComp   = mScene1->materials[id];
+    
+            auto& mesh = mEngine.getMeshManager().meshStorage.at(meshComp.meshID);
 
-        auto& mesh = mEngine.getMeshManager().meshStorage.at(meshComp.meshID);
+            auto cam = ENGINE->getCameraManager().getActiveCamera();
+            cam->update();
+            glm::mat4 vp = cam->getVP();
+
+            mEngine.getRenderer().drawMesh2(mesh, transComp, matComp, mEngine.getShaderManager(), vp);
+        }
         
-        mEngine.getRenderer().drawMesh2(mesh, transComp, matComp, mEngine.getShaderManager());
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -74,7 +126,8 @@ void Editor::drawAllToFBO(){
 void Editor::render(){
     editorUI.startUIDraw();
     drawAllToFBO();
-    // editorUI.endUIDraw();
+    GLuint* mColorTexPointer = &mColorTex;
+    editorUI.endUIDraw(*mColorTexPointer);
 }
 
 void Editor::shutdown(){

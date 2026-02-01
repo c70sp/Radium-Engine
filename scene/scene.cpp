@@ -1,11 +1,26 @@
 #include "scene.hpp"
 
-Entity* Scene::createEntity(SceneStruct& scene){
+
+
+
+
+Entity* Scene::createEntity(const std::string& name){
     Entity ent;
-    scene.entities.emplace_back(ent);
-    return &scene.entities.back();
+
+    ent.name = name;
+    ent.id = lastEntity;
+    lastEntity++;
+
+    entities.emplace_back(ent);
+    return &entities.back();
 }
 
-void Scene::removeEntity(Entity& ent){
+Entity* Scene::getEntity(const std::string& name){
+    for(auto& e : entities){
+        if(e.name == name){
+            return &e;
+        }
+    }
 
+    return nullptr;
 }

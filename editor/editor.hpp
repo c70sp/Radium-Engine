@@ -3,27 +3,30 @@
 #include <iostream>
 
 #include "./../engine/engine.hpp"
-#include "./../scene/scene.hpp"
+#include "./../scene/sceneManager.hpp"
 #include "./editorUI/editorUI.hpp"
+
+#include "./../staticConfig.hpp"
 
 class Editor{
     public:
-        Editor(Engine& engine, Scene& scene);
+        Editor(Engine& engine, SceneManager& sceneManager);
         void init();
         void update(float dt);
         void render();
         void shutdown();
 
     private:
-        Scene& mScene;
+        SceneManager& mSceneManager;
         Engine& mEngine;
 
         EditorUI editorUI;
 
         GLuint mFBO, mColorTex, mDepthRBO;
 
-        SceneStruct scene1;
-        Entity* ent;
+        Scene* mScene1;
+        // SceneStruct scene1;
+        // Entity* ent;
 
 
         void createFBO();

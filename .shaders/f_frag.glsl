@@ -26,5 +26,6 @@ void main(){
 
     // vec4 tempColor = texture(u_texture, vTexCoords);
     // color = tempColor * vec4(brightness, 1.0);
-    color = texture(u_texture, vTexCoords);
+    // color = texture(u_texture, vTexCoords);
+    color = vec4(1.0);
 }

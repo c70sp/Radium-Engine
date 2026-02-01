@@ -8,7 +8,7 @@ void EditorUI::createEditorUI(){
     std::cout << "EditorUI creation...\n";
 }
 
-void EditorUI::setCurrentSceneStruct(SceneStruct& sceneStruct){
+void EditorUI::setCurrentSceneStruct(SceneInfo& sceneStruct){
     mCurrentSceneStruct = &sceneStruct;
 }
 
@@ -133,6 +133,21 @@ void EditorUI::startUIDraw(){
     ImGui::Begin("Console");
     ImGui::Text("... logging ...");
     ImGui::End();
+}
+
+void EditorUI::endUIDraw(GLuint &colorTex){
+    ImGui::Begin("Viewport");
+
+    ImVec2 fixedSize = ImVec2(640, 480);
+    ImGui::Image((ImTextureID)(intptr_t)colorTex, fixedSize, ImVec2(0, 1), ImVec2(1, 0));
+    
+    ImVec2 size = ImGui::GetContentRegionAvail();
+    viewportSize.x = size.x;
+    viewportSize.y = size.y;
+    
+    ImGui::End();
+
+    // =================
 
     ImGui::Render();
 
@@ -142,7 +157,7 @@ void EditorUI::startUIDraw(){
     ImGui::UpdatePlatformWindows();
     ImGui::RenderPlatformWindowsDefault();
     glfwMakeContextCurrent(backup);
-}
+};
 
 void EditorUI::spawnCube(){
 }

@@ -32,6 +32,8 @@ class MeshManager{
         // Contains OpenGL compatible meshes
         std::unordered_map<uint32_t, Mesh3D> meshStorage;
     private:
+        uint32_t lastMesh = 0;
+
         // List of all AssimpMeshes, contains pure vertex, index, normal and texCoord data
         std::vector<AssimpMesh> cachedMeshes;
         // Turns an AssimpMesh into a Mesh3D (OpenGL compatible data)

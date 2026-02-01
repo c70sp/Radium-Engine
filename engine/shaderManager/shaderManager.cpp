@@ -64,7 +64,7 @@ GLuint ShaderManager::getShaderType(std::string shaderName){
 }
 
 void ShaderManager::compileAllShaders(){
-    std::string path = "C:\\dev\\projects\\C++\\OpenGL\\manIdk\\.shaders\\";
+    std::string path = "C:\\dev\\projects\\C++\\OpenGL\\Radium Engine\\.shaders\\";
     std::vector<std::string> fileNames;
 
     for(const auto& entry : std::filesystem::directory_iterator(path)){

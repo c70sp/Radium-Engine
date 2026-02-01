@@ -25,6 +25,8 @@ enum class IndexType{
 };
 
 struct Mesh3D{
+    uint32_t id;
+
     GLuint VAO, VBO, EBO, norm;
     int indexSize;
 
