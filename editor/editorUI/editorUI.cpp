@@ -133,19 +133,31 @@ void EditorUI::startUIDraw(){
     ImGui::Begin("Console");
     ImGui::Text("... logging ...");
     ImGui::End();
+
+    // vvvvvvvvvvvvvvvvvvvv VIEWPORT vvvvvvvvvvvvvvvvvvvv
+    ImGui::Begin("Viewport");
+    ImVec2 size = ImGui::GetContentRegionAvail();
+    if(viewportSize.x != size.x || viewportSize.y != size.y){
+        viewportChanged = true;
+        viewportSize.x = size.x;
+        viewportSize.y = size.y;
+    }
+    ImGui::End();
+    // ^^^^^^^^^^^^^^^^^^^^ VIEWPORT ^^^^^^^^^^^^^^^^^^^^
 }
 
 void EditorUI::endUIDraw(GLuint &colorTex){
-    ImGui::Begin("Viewport");
 
-    ImVec2 fixedSize = ImVec2(640, 480);
-    ImGui::Image((ImTextureID)(intptr_t)colorTex, fixedSize, ImVec2(0, 1), ImVec2(1, 0));
-    
-    ImVec2 size = ImGui::GetContentRegionAvail();
-    viewportSize.x = size.x;
-    viewportSize.y = size.y;
-    
+    // vvvvvvvvvvvvvvvvvvvv VIEWPORT vvvvvvvvvvvvvvvvvvvv
+    ImGui::Begin("Viewport");
+    ImGui::Image((ImTextureID)(intptr_t)colorTex, ImVec2(viewportSize.x, viewportSize.y), ImVec2(0, 1), ImVec2(1, 0));
+    if(ImGui::IsItemHovered()){
+        mouseInViewport = true;
+    }else{
+        mouseInViewport = false;
+    }
     ImGui::End();
+    // ^^^^^^^^^^^^^^^^^^^^ VIEWPORT ^^^^^^^^^^^^^^^^^^^^
 
     // =================
 

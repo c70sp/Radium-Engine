@@ -8,9 +8,13 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
+#include "./../windowContext.hpp"
+#include "./../eventSystem/eventSystem.hpp"
+class EventSystem;
+
 class MouseManager{
     public:
-        MouseManager(GLFWwindow* window);
+        MouseManager(GLFWwindow& window, EventSystem& es);
 
         glm::vec2 getMousePos();
         int getMouseScroll();
@@ -21,8 +25,15 @@ class MouseManager{
     private:
         int scrolling = 0;
 
-        GLFWwindow* windowRef;
+        GLFWwindow& windowRef;
+        EventSystem& eventSystemRef;
 
         static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
         void onScroll(double xoffset, double yoffset);
+
+        static void button_callback(GLFWwindow* window, int button, int action, int mods);
+        void onButton(int button, int action, int mods);
+
+        static void move_callback(GLFWwindow* window, double xpos, double ypos);
+        void onMove(double xpos, double ypos);
 };

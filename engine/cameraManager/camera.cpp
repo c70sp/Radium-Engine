@@ -1,7 +1,7 @@
 #include "camera.hpp"
 
 Camera::Camera(float width, float height, const std::string& nameIn){
-    aspect = 640 / 480; // TODO: should be width / height, but hardcoded now for debugging
+    aspect = width / height;
 
     direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     direction.y = sin(glm::radians(pitch));

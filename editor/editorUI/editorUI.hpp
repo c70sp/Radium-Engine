@@ -9,6 +9,8 @@
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_glfw.h>
 
+
+#include "./../engine/engine.hpp"
 #include "./../scene/sceneStruts.hpp"
 #include "./../scene/scene.hpp"
 
@@ -46,7 +48,10 @@ class EditorUI{
         void setCurrentScene(Scene& scene);
 
 
-        glm::vec2 viewportSize;
+        glm::vec2 viewportSize = glm::vec2(100, 100);
+        bool viewportChanged = false;
+        bool mouseInViewport = false;
+        bool viewportDragActive = false;
 
     private:
         SceneInfo* mCurrentSceneStruct;

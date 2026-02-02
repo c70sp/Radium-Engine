@@ -62,11 +62,14 @@ void Editor::init(){
     createFBO();
 
 
-    ENGINE->getCameraManager().createCamera(640, 480, "main");
+    ENGINE->getCameraManager().createCamera(editorUI.viewportSize.x, editorUI.viewportSize.y, "viewportCamera");
+
+
+    createEventListeners();
 }
 
 void Editor::update(float dt){
-    if(mEngine.getKeyManager().isKeyDown(GLFW_KEY_ESCAPE)) glfwSetWindowShouldClose(mEngine.window.mWindow, true);
+    if(editorUI.viewportDragActive) handleViewportInputs();
 }
 
 void Editor::drawAllToFBO(){
@@ -92,8 +95,9 @@ void Editor::drawAllToFBO(){
         }
     }
 
+    glDisable(GL_SCISSOR_TEST);
     glBindFramebuffer(GL_FRAMEBUFFER, mFBO);
-    glViewport(0, 0, 640, 480);
+    glViewport(0, 0, editorUI.viewportSize.x, editorUI.viewportSize.y);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     for (uint32_t id : drawableEntities) {
@@ -121,13 +125,21 @@ void Editor::drawAllToFBO(){
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, ENGINE->mWindowSize.x, ENGINE->mWindowSize.y);
 }
 
 void Editor::render(){
     editorUI.startUIDraw();
+
+    if(editorUI.viewportChanged) resizeViewport();
+
     drawAllToFBO();
+
     GLuint* mColorTexPointer = &mColorTex;
     editorUI.endUIDraw(*mColorTexPointer);
+
+    mouseData.delta = glm::vec2(0);
+    mouseData.offset = glm::vec2(0);
 }
 
 void Editor::shutdown(){

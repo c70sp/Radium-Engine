@@ -16,6 +16,9 @@
 #include "./uiManager/uiManager.hpp"
 #include "./textureManager/textureManager.hpp"
 #include "./textManager/textManager.hpp"
+#include "./eventSystem/eventSystem.hpp"
+
+#include "./windowContext.hpp"
 
 struct GameCallbacks{
     std::function<void()> onInit;
@@ -44,8 +47,12 @@ class Engine{
         TextureManager& getTextureManager() {return textureManager;}
         TextManager& getTextManager() {return textManager;}
         CollisionManager& getCollisionManager() {return collisionManager;}
+
+        EventSystem& getEventSystem() {return eventSystem;}
         
         Window window;
+
+        glm::vec2 mWindowSize;
     private:
         TextureManager textureManager;
         TextManager textManager;
@@ -60,4 +67,6 @@ class Engine{
         RayCast rayCast;
         UIManager uiManager;
         CollisionManager collisionManager;
+
+        EventSystem eventSystem;
 };

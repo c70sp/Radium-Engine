@@ -36,6 +36,8 @@ class Camera{
 
         std::string name;
 
+        float aspect;
+
     private:
         void updateVectors();
 
@@ -45,7 +47,6 @@ class Camera{
         glm::vec3 direction = glm::vec3(0.0f);
         glm::vec3 position = glm::vec3(0.0f, 0.0f, 2.0f);
 
-        float aspect;
         float nearPlane = 0.1f;
         float farPlane = 5000.0f;
 };
