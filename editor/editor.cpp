@@ -1,8 +1,12 @@
 #include "editor.hpp"
 
-Editor::Editor(Engine& engine, SceneManager& sceneManager) : mEngine(engine), mSceneManager(sceneManager){
+Editor::Editor(Engine& engine, SceneManager& sceneManager)
+        : mEngine(engine),
+        mSceneManager(sceneManager),
+        editorUI(editorActions)
+{
     std::cout << "Running in editor-mode!\n";
-    std::cout << &engine << " | " << &sceneManager << "\n";
+    std::cout << "Editor engine ref: " << &engine << " | Editor scene ref: " << &sceneManager << "\n";
 }
 
 void Editor::init(){
@@ -121,7 +125,6 @@ void Editor::drawAllToFBO(){
 
             mEngine.getRenderer().drawMesh2(mesh, transComp, matComp, mEngine.getShaderManager(), vp);
         }
-        
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);

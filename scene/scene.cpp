@@ -1,8 +1,20 @@
 #include "scene.hpp"
 
+Scene::Scene(){
+    createEventListeners();
+}
 
+void Scene::createEventListeners(){
+    ENGINE->getEventSystem().subscribe<SpawnEntityEvent>([this](const SpawnEntityEvent& e){
+        
+        createEntityNew(e);
+    });
+}
 
-
+void Scene::createEntityNew(const SpawnEntityEvent& e){
+    std::cout << "Recieved entity create event!\n";
+    // Entity* ent = createEntity(e.entityDesc.name);
+}
 
 Entity* Scene::createEntity(const std::string& name){
     Entity ent;

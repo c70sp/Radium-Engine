@@ -6,6 +6,7 @@
 #include "./../engine/engine.hpp"
 #include "./../scene/sceneManager.hpp"
 #include "./editorUI/editorUI.hpp"
+#include "./editorActions/editorActions.hpp"
 
 #include "./../staticConfig.hpp"
 
@@ -36,6 +37,7 @@ class Editor{
         Engine& mEngine;
 
         EditorUI editorUI;
+        EditorActions editorActions;
 
         GLuint mFBO, mColorTex, mDepthRBO;
 

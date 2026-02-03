@@ -6,8 +6,29 @@
 
 #include "sceneStruts.hpp"
 
+#include "./../engine/engine.hpp"
+
+/**
+ * This is the scene object itself.
+ * The functions here are for:
+ *  - creating entities
+ *  - deleting entities
+ *  - adding and removing components to entities
+ *  - saving the scene to a file
+ *  - loading a scene file
+ * 
+ * This is NOT for:
+ *  - Managing all the scenes
+ *  - Creating scenes
+ *  - Deleting scenes
+ */
 class Scene{
     public:
+        Scene();
+
+        void createEventListeners();
+        void createEntityNew(const SpawnEntityEvent& e);
+
         Entity* createEntity(const std::string& name);
         void removeEntity(Entity& ent);
 

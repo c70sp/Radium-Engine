@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <optional>
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -30,5 +31,12 @@ struct Entity{
 };
 
 struct SceneInfo{
+    std::string name;
+};
+
+struct EntityDesc{
+    std::optional<TransformComponent> transform;
+    std::optional<MeshComponent> mesh;
+    std::optional<MaterialComponent> material;
     std::string name;
 };

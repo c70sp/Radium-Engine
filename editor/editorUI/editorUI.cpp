@@ -125,8 +125,7 @@ void EditorUI::startUIDraw(){
     ImGui::Begin("Project browser");
     ImGui::Text("... list of all assets, scripts, etc. ...");
     if(ImGui::Button("Spawn cube")){
-        std::cout << "Spawning cube...\n";
-        spawnCube();
+        editorActions.spawnEntity();
     }
     ImGui::End();
 
@@ -170,6 +169,3 @@ void EditorUI::endUIDraw(GLuint &colorTex){
     ImGui::RenderPlatformWindowsDefault();
     glfwMakeContextCurrent(backup);
 };
-
-void EditorUI::spawnCube(){
-}

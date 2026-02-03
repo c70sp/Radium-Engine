@@ -13,9 +13,11 @@
 #include "./../engine/engine.hpp"
 #include "./../scene/sceneStruts.hpp"
 #include "./../scene/scene.hpp"
+#include "./../editorActions/editorActions.hpp"
 
 // Just for some safety. Prob. not needed ig
 class Scene;
+class EditorActions;
 
 /**
  * This will contain the ENTIRE UI system.
@@ -32,7 +34,7 @@ class Scene;
  */
 class EditorUI{
     public:
-        // EditorUI();
+        EditorUI(EditorActions& editorActions) : editorActions(editorActions) {};
 
         void imGuiSetup(GLFWwindow* window);
         void createEditorUI();
@@ -57,5 +59,5 @@ class EditorUI{
         SceneInfo* mCurrentSceneStruct;
         Scene* mScene;
 
-        void spawnCube();
+        EditorActions& editorActions;
 };
