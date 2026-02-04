@@ -7,11 +7,15 @@ int main(int argc, char** argv){
 
     if(argc > 1 && std::string(argv[1]) == "--editor") runEditor = true;
 
-    // Engine engine(1920, 1140);
-    Engine engine(1920, 1000);
+    Engine engine(1920, 1140);
+    // Engine engine(1920, 1000);
     SceneManager sceneManager;
 
     GameCallbacks callbacks;
+
+    const char* vendor = (const char*)glGetString(GL_VENDOR);
+    const char* renderer = (const char*)glGetString(GL_RENDERER);
+    printf("GL_VENDOR: %s\nGL_RENDERER: %s\n", vendor, renderer);
 
     if(runEditor){
         Editor editor(engine, sceneManager);

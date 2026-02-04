@@ -7,7 +7,8 @@ Engine::Engine(int width, int height) :
                 keyManager(*window.mWindow, eventSystem),
                 mouseManager(*window.mWindow, eventSystem),
                 textureManager(),
-                textManager(textureManager)
+                textManager(textureManager),
+                renderer(meshManager, shaderManager)
 {
     instance = this;
     mWindowSize = glm::vec2(width, height);

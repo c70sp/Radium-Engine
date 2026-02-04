@@ -19,7 +19,7 @@ class SceneManager{
         Scene* activeScene(){return &mScenes.at(mActiveScene);};
 
         void setActiveScene(uint32_t index);
-        int mActiveScene = 0;
+        uint32_t mActiveScene = 0;
     private:
         std::vector<Scene> mScenes;
 };

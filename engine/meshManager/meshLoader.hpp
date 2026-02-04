@@ -16,6 +16,12 @@ class MeshLoader{
     public:
         bool loadModel(const std::string& filepath);
         std::vector<AssimpMesh> extractMeshes();
+
+
+
+
+
+        std::vector<std::pair<cpuMesh, std::string>> extractCPUMeshes();
     private:
         Assimp::Importer importer;
         const aiScene* scene;

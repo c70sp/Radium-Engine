@@ -125,7 +125,9 @@ void EditorUI::startUIDraw(){
     ImGui::Begin("Project browser");
     ImGui::Text("... list of all assets, scripts, etc. ...");
     if(ImGui::Button("Spawn cube")){
-        editorActions.spawnEntity();
+        for(uint32_t i = 0; i < 10; i++){
+            editorActions.spawnEntity();
+        }
     }
     ImGui::End();
 

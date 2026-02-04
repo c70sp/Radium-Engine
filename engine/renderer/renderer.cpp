@@ -1,5 +1,4 @@
 #include "renderer.hpp"
-#include "shaderManager/shaderManager.hpp"
 
 void Renderer::beginFrame(){
     glEnable(GL_DEPTH_TEST);
@@ -76,6 +75,30 @@ void Renderer::drawMesh2(const Mesh3D& mesh, TransformComponent& tc, MaterialCom
     glDrawElements(GL_TRIANGLES, mesh.indexSize, glType, NULL);
 
     glUseProgram(0);
+}
+
+void Renderer::drawMeshNewSystem(const std::vector<Renderable>& renderQueue, const glm::mat4& VPMatrix){
+    // std::cout << "Yo, render queue is here: " << renderQueue.size() << std::endl;
+
+    for(auto& e : renderQueue){
+        glUseProgram(e.mat->programID);
+        GLint currentProg = 0;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &currentProg);
+        if(currentProg == 0) std::cerr << "Current prog: " << currentProg << ", prob. means shit's fucked\n";
+
+        auto& mesh = meshManagerRef.getGPUMesh(e.mesh->meshInfoID);
+
+        glBindVertexArray(mesh.VAO);
+        glm::mat4 mm = createModelMatrix(*e.trans);
+        shaderManagerRef.setUniformMat4(e.mat->programID, "u_ModelMatrix", mm);
+
+        shaderManagerRef.setUniformMat4(e.mat->programID, "u_VP", VPMatrix);
+
+        GLenum glType = getGLIndexType(IndexType::UNSIGNED_INT);
+        glDrawElements(GL_TRIANGLES, mesh.indexSize, glType, NULL);
+
+        glUseProgram(0);
+    }
 }
 
 void Renderer::drawUI(UIManager& ui){

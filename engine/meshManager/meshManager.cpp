@@ -1,11 +1,4 @@
-// C++ STL
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <sstream>
-
 #include "meshManager.hpp"
-#include "./../core/common.hpp"
 
 void MeshManager::loadModel(const std::string& filepath){
     meshLoader.loadModel(filepath);
@@ -105,113 +98,108 @@ Mesh3D MeshManager::createMesh(AssimpMesh& mesh){
     return returnMesh;
 }
 
-// // Mesh3D MeshManager::loadModel(const std::string& location, GLuint program){
-// //     std::vector<GLfloat> vertexData;
-// //     std::vector<GLuint> indexData;
-// //     retrieveMesh3D(location, vertexData, indexData);
-    
-// //     std::vector<GLfloat> norm;
-// //     return createMesh(vertexData, indexData, norm, program);
-// // };
 
-// Mesh3D MeshManager::createModel(const std::vector<GLfloat> vertices, const std::vector<GLuint> indices, const std::vector<GLfloat> norm, GLuint prog){
-//     return createMesh(vertices, indices, norm, prog);
-// }
 
-// Mesh3D MeshManager::createMesh(const std::vector<GLfloat> vertices, const std::vector<GLuint> indices, const std::vector<GLfloat> norm, GLuint prog){
-//     Mesh3D mesh;
 
-//     glGenVertexArrays(1, &mesh.VAO);
-//     glBindVertexArray(mesh.VAO);
 
-//     glGenBuffers(1, &mesh.VBO);
-//     glBindBuffer(GL_ARRAY_BUFFER, mesh.VBO);
-//     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
-//     glEnableVertexAttribArray(0);
-//     glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, (void*)0);
-    
-//     glGenBuffers(1, &mesh.norm);
-//     glBindBuffer(GL_ARRAY_BUFFER, mesh.norm);
-//     glBufferData(GL_ARRAY_BUFFER, norm.size() * sizeof(GLfloat), norm.data(), GL_STATIC_DRAW);
-//     glEnableVertexAttribArray(1);
-//     glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, (void*)0);
 
-//     glGenBuffers(1, &mesh.EBO);
-//     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.EBO);
-//     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
 
-//     glBindVertexArray(0);
 
-//     mesh.indexSize = indices.size();
-//     mesh.program = prog;
+std::vector<uint32_t> MeshManager::parseObj(const std::string& location){
+    meshLoader.loadModel(location);
+    std::vector<std::pair<cpuMesh, std::string>> tempMeshes = meshLoader.extractCPUMeshes();
+    std::vector<uint32_t> returnIDs;
 
-//     return mesh;
-// }
+    // extractMeshes() only returns meshes from last loadModel call, that is why I push it into the cache
+    for(auto& tempMesh : tempMeshes){
+        cachedCPUMeshes[lastCpuID] = tempMesh.first;
+        
+        meshInfo info;
+        info.cpuMeshID = lastCpuID;
+        info.displayName = tempMesh.second;
 
-// void MeshManager::retrieveMesh3D(const std::string& location, std::vector<GLfloat>& vertexDataArr, std::vector<GLuint>& indexBufferArr){
-//     std::string objectData = loadFileAsString(location);
+        std::stringstream ss;
+        ss  << tempMesh.second
+            << std::setw(4)
+            << std::setfill('0')
+            << lastMeshInfoID;
+        info.internalName = ss.str();
+        meshInfoObjects[lastMeshInfoID] = info;
 
-//     std::vector<glm::vec3> vertices;
-//     std::vector<glm::vec2> texCoords;
-//     std::vector<glm::vec3> normals;
+        std::cout << "> Internal name: " << info.internalName << std::endl;
+        std::cout << "> Last CPU ID: " << lastCpuID << std::endl;
 
-//     std::istringstream stream(objectData);
-//     std::string line;
+        returnIDs.push_back(lastMeshInfoID);
+        
+        lastCpuID++;
+        lastMeshInfoID++;
+    }
 
-//     while (std::getline(stream, line)) {
-//         std::istringstream lineStream(line);
-//         std::string prefix;
-//         lineStream >> prefix;
+    return returnIDs;
+}
 
-//         if (prefix == "v") {
-//             GLfloat x, y, z;
-//             lineStream >> x >> y >> z;
-//             vertices.emplace_back(x, y, z);
-//         } else if (prefix == "vt") {
-//             GLfloat u, v;
-//             lineStream >> u >> v;
-//             texCoords.emplace_back(u, v);
-//         } else if (prefix == "vn") {
-//             GLfloat nx, ny, nz;
-//             lineStream >> nx >> ny >> nz;
-//             normals.emplace_back(nx, ny, nz);
-//         } else if (prefix == "f") {
-//             GLuint vIndex[3], vtIndex[3], vnIndex[3];
+uint32_t MeshManager::compileMesh(uint32_t ID){
+    gpuMesh gpuMesh;
 
-//             for (int i = 0; i < 3; ++i) {
-//                 std::string vertexStr;
-//                 lineStream >> vertexStr;
+    cpuMesh& cpuMesh = cachedCPUMeshes[meshInfoObjects[ID].cpuMeshID];
 
-//                 if (vertexStr.empty()) break;
+    std::vector<GLfloat> vertices;
+    vertices.reserve(cpuMesh.vertices.size() / 3 * 8); // Tiny bit of a performance improvement, no longer needs to jump addresses.
+    for(unsigned int i = 0; i < cpuMesh.vertices.size() / 3; i++){
+        vertices.push_back(cpuMesh.vertices[i*3+0]);
+        vertices.push_back(cpuMesh.vertices[i*3+1]);
+        vertices.push_back(cpuMesh.vertices[i*3+2]);
 
-//                 // Parse the vertex/texcoord/normal index (v/vt/vn)
-//                 sscanf(vertexStr.c_str(), "%u/%u/%u", &vIndex[i], &vtIndex[i], &vnIndex[i]);
+        vertices.push_back(cpuMesh.normals[i*3+0]);
+        vertices.push_back(cpuMesh.normals[i*3+1]);
+        vertices.push_back(cpuMesh.normals[i*3+2]);
 
-//                 // OBJ indices are 1-based, OpenGL uses 0-based indices
-//                 --vIndex[i];
-//                 --vtIndex[i];
-//                 --vnIndex[i];
+        vertices.push_back(cpuMesh.texCoords[i*2+0]);
+        vertices.push_back(cpuMesh.texCoords[i*2+1]);
+    }
+    glGenVertexArrays(1, &gpuMesh.VAO);
+    glBindVertexArray(gpuMesh.VAO);
 
-//                 // Append interleaved vertex data to the vertexDataArr
-//                 const glm::vec3& vertex = vertices[vIndex[i]];
-//                 const glm::vec2& texCoord = texCoords[vtIndex[i]];
-                
-//                 vertexDataArr.push_back(vertex.x);
-//                 vertexDataArr.push_back(vertex.y);
-//                 vertexDataArr.push_back(vertex.z);
+    glGenBuffers(1, &gpuMesh.VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, gpuMesh.VBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
 
-//                 // vertexDataArr.push_back(1.0f);
-//                 // vertexDataArr.push_back(1.0f);
-//                 // vertexDataArr.push_back(1.0f);
+    // vvv Verticies vvv
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, false, 8*sizeof(GLfloat), (void*)0);
+    // vvv Normals vvv
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, false, 8*sizeof(GLfloat), (void*)(3*sizeof(GLfloat)));
+    // vvv UV Coordinates vvv
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, false, 8*sizeof(GLfloat), (void*)(6*sizeof(GLfloat)));
 
-//                 // vertexDataArr.push_back(texCoord.x);
-//                 // vertexDataArr.push_back(texCoord.y);
-//             }
+    glGenBuffers(1, &gpuMesh.EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gpuMesh.EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, cpuMesh.indices.size() * sizeof(GLuint), cpuMesh.indices.data(), GL_STATIC_DRAW);
 
-//             // Add indices for this face
-//             indexBufferArr.push_back(indexBufferArr.size());
-//             indexBufferArr.push_back(indexBufferArr.size());
-//             indexBufferArr.push_back(indexBufferArr.size());
-//         }
-//     }
-// }
+    glBindVertexArray(0);
+
+    gpuMesh.indexSize = cpuMesh.indices.size();
+
+    cachedGPUMeshes[lastGpuID] = gpuMesh;
+    meshInfoObjects[ID].gpuMeshID = lastGpuID;
+    lastGpuID++;
+
+    std::cout << "> Compiled mesh: " << meshInfoObjects[ID].internalName << " to GPU mesh!\n";
+
+    return lastGpuID - 1;
+}
+
+gpuMesh& MeshManager::getGPUMesh(uint32_t id){
+    if constexpr (staticConfig::errorLogging){
+        if(meshInfoObjects.find(id) == meshInfoObjects.end()){
+            std::cerr << "Mesh info with ID: " << id << " not found" << std::endl;
+            static gpuMesh emptyMesh;
+            return emptyMesh;
+        }
+    }
+    uint32_t gpuMeshID = meshInfoObjects[id].gpuMeshID.value();
+    gpuMesh& mesh = cachedGPUMeshes.at(gpuMeshID);
+    return mesh;
+}

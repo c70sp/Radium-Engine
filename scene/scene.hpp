@@ -1,8 +1,12 @@
+#define GLM_ENABLE_EXPERIMENTAL
 #pragma once
 
 #include <string>
 #include <unordered_map>
 #include <iostream>
+#include <vector>
+
+#include <glm/gtx/string_cast.hpp>
 
 #include "sceneStruts.hpp"
 
@@ -39,28 +43,48 @@ class Scene{
 
         
         // ffs, I hate C++, need to put this shit into the header file for the template to work.. hhhh        
-        void addComponent(Entity& ent, const auto& component){
+        void addComponent(uint32_t id, const auto& component){
             using T = std::decay_t<decltype(component)>;
             
-            if constexpr (std::is_same_v<T, TransformComponent>) transforms[ent.id] = component;
-            else if constexpr (std::is_same_v<T, MeshComponent>) meshes[ent.id] = component;
-            else if constexpr (std::is_same_v<T, MaterialComponent>) materials[ent.id] = component;
+            if constexpr (std::is_same_v<T, TransformComponent>) transforms[id] = component;
+            else if constexpr (std::is_same_v<T, MeshComponent>) meshes[id] = component;
+            else if constexpr (std::is_same_v<T, MeshComponentNew>) meshesNew[id] = component;
+            else if constexpr (std::is_same_v<T, MaterialComponent>) materials[id] = component;
             else std::cerr << "Tried to add unsupported component!\n";
         }
         template<typename T>
-        T& getComponent(Entity& ent){
-            if constexpr (std::is_same_v<T, TransformComponent>) return transforms[ent.id];
-            else if constexpr (std::is_same_v<T, MeshComponent>) return meshes[ent.id];
-            else if constexpr (std::is_same_v<T, MaterialComponent>) return materials[ent.id];
+        T& getComponent(uint32_t id){
+            if constexpr (std::is_same_v<T, TransformComponent>) return transforms[id];
+            else if constexpr (std::is_same_v<T, MeshComponent>) return meshes[id];
+            else if constexpr (std::is_same_v<T, MeshComponentNew>) return meshesNew[id];
+            else if constexpr (std::is_same_v<T, MaterialComponent>) return materials[id];
             else std::cerr << "Component not found by getComponent()!\n";
         }
         void removeComponent();
         
+        /**
+         * Potentially switch to vector of structs?
+         * Would allow fast lookup (since renderer loops over these)
+         * struct transformContainer{
+         *      uint32_t id;
+         *      TransformComponent;
+         * };
+         */
         std::unordered_map<uint32_t, TransformComponent> transforms;
         std::unordered_map<uint32_t, MeshComponent> meshes;
+        std::unordered_map<uint32_t, MeshComponentNew> meshesNew;
         std::unordered_map<uint32_t, MaterialComponent> materials;
 
         std::vector<Entity> entities;
+        std::vector<uint32_t> entitiesNew;
         uint32_t lastEntity = 0;
+
+
+
+
+
+
+
+        void createEntity(uint32_t ID);
     private:
 };

@@ -93,3 +93,63 @@ void MeshLoader::printMeshInfo(const AssimpMesh& mesh, int meshIndex){
 void MeshLoader::getMeshInfo(){
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+std::vector<std::pair<cpuMesh, std::string>> MeshLoader::extractCPUMeshes(){
+    std::vector<std::pair<cpuMesh, std::string>> meshes;
+
+    for(unsigned int i = 0; i < scene->mNumMeshes; i++){
+        aiMesh* aiMesh = scene->mMeshes[i];
+        cpuMesh mesh;
+        
+        std::cout << "Processing mesh: " << i << " : " << aiMesh->mName.C_Str() << std::endl;
+        std::cout << "  Vertices: " << aiMesh->mNumVertices << std::endl;
+        std::cout << "  Faces: " << aiMesh->mNumFaces << std::endl;
+    
+        for(unsigned int j = 0; j < aiMesh->mNumVertices; j++){
+            mesh.vertices.push_back(aiMesh->mVertices[j].x);
+            mesh.vertices.push_back(aiMesh->mVertices[j].y);
+            mesh.vertices.push_back(aiMesh->mVertices[j].z);
+
+            if(aiMesh->HasNormals()){
+                mesh.normals.push_back(aiMesh->mNormals[j].x);
+                mesh.normals.push_back(aiMesh->mNormals[j].y);
+                mesh.normals.push_back(aiMesh->mNormals[j].z);
+            }
+
+            if(aiMesh->HasTextureCoords(0)){
+                mesh.texCoords.push_back(aiMesh->mTextureCoords[0][j].x);
+                mesh.texCoords.push_back(aiMesh->mTextureCoords[0][j].y);
+            }else{
+                mesh.texCoords.push_back(0.0f);
+                mesh.texCoords.push_back(0.0f);
+            }
+        }
+
+        for(unsigned int j = 0; j < aiMesh->mNumFaces; j++){
+            aiFace face = aiMesh->mFaces[j];
+            for(unsigned int k = 0; k < face.mNumIndices; k++){
+                mesh.indices.push_back(face.mIndices[k]);
+            }
+        }
+
+        std::string displayName = aiMesh->mName.C_Str();
+        meshes.push_back(std::make_pair(mesh, displayName));
+    }
+
+    return meshes;
+}

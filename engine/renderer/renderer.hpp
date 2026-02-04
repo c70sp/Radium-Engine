@@ -10,16 +10,18 @@
 
 // Own libs
 #include "./../meshManager/mesh3d.hpp"
-// #include "./../meshManager/meshManager.hpp"
+#include "./../meshManager/meshManager.hpp"
 #include "./../shaderManager/shaderManager.hpp"
 #include "./../../scene/sceneStruts.hpp"
 #include "./../uiManager/uiManager.hpp"
 
 class ShaderManager;
-// class MeshManager;
+class MeshManager;
 
 class Renderer{
     public:
+        Renderer(MeshManager& mm, ShaderManager& sm) : meshManagerRef(mm), shaderManagerRef(sm) {};
+
         void beginFrame();
         void endFrame();
 
@@ -30,11 +32,15 @@ class Renderer{
 
         void drawMesh(const Mesh3D& mesh, ShaderManager& sm, const glm::mat4 VPMatrix);
         void drawMesh2(const Mesh3D& mesh, TransformComponent& tc, MaterialComponent& mc, ShaderManager& sm, glm::mat4& VPMatrix);
+
+        void drawMeshNewSystem(const std::vector<Renderable>& renderQueue, const glm::mat4& VPMatrix);
+        void drawSingleObject(); // Same shit as drawMeshNewSystem, but without sending an entire render queue.
+        
         void drawUI(UIManager& ui);
 
     private:
-        // MeshManager* meshManagerRef;
-        // ShaderManager* shaderManagerRef;
+        MeshManager& meshManagerRef;
+        ShaderManager& shaderManagerRef;
 
         GLenum getGLIndexType(IndexType type);
 };

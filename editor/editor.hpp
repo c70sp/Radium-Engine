@@ -49,6 +49,8 @@ class Editor{
         //! vvvvvvvvvvvvvvv editorFBO.cpp vvvvvvvvvvvvvvv
         void createFBO();
         void drawAllToFBO();
+
+        void drawAllToFBONew();
         
         void resizeViewport();
         void resizeFBO();
@@ -69,4 +71,14 @@ class Editor{
 
         MouseData mouseData;
         KeyData keyData;
+
+
+
+
+
+
+
+
+
+        void createSingleMesh();
 };

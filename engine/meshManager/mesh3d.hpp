@@ -9,6 +9,8 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
+#include "./../../scene/sceneStruts.hpp"
+
 struct Texture{
     GLuint id;
     int width;
@@ -47,4 +49,46 @@ struct AssimpMesh{
     std::vector<unsigned int> indices;
 
     std::string name;
+};
+
+
+
+
+
+
+
+
+struct cpuMesh{
+    std::vector<float> vertices;
+    std::vector<float> normals;
+    std::vector<float> texCoords;
+    std::vector<unsigned int> indices;
+};
+
+struct gpuMesh{
+    GLuint VAO, VBO, EBO;
+    uint32_t indexSize;
+};
+
+struct meshInfo{
+    uint32_t cpuMeshID;
+    std::optional<uint32_t> gpuMeshID;
+    std::string displayName; // from OBJ objects
+    std::string internalName; // display + cpuMeshID
+};
+
+/**
+ * Forward decl for renderable.
+ */
+struct TransformComponent;
+struct MeshComponentNew;
+struct MaterialComponent;
+
+/**
+ * The dataset that gets send to the renderer from either the game directly or the editor.
+ */
+struct Renderable{
+    TransformComponent* trans;
+    MeshComponentNew* mesh;
+    MaterialComponent* mat;
 };

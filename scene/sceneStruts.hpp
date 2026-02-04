@@ -9,9 +9,15 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
+#include "./../engine/meshManager/mesh3d.hpp"
+
 struct MeshComponent{
     std::string meshName;
     uint32_t meshID;
+};
+
+struct MeshComponentNew{
+    uint32_t meshInfoID;
 };
 
 struct TransformComponent{
@@ -27,16 +33,19 @@ struct MaterialComponent{
 
 struct Entity{
     uint32_t id;
-    std::string name;
+    // std::string name;
 };
 
 struct SceneInfo{
     std::string name;
 };
 
+/**
+ * This is kind of just a "transfer protocol".
+ * This is used so I only need to create a single event and all of the basic info is already there.
+ */
 struct EntityDesc{
-    std::optional<TransformComponent> transform;
-    std::optional<MeshComponent> mesh;
-    std::optional<MaterialComponent> material;
-    std::string name;
+    TransformComponent transform;
+    MeshComponentNew mesh;
+    MaterialComponent material;
 };
