@@ -117,6 +117,7 @@ std::vector<uint32_t> MeshManager::parseObj(const std::string& location){
         meshInfo info;
         info.cpuMeshID = lastCpuID;
         info.displayName = tempMesh.second;
+        info.path = location;
 
         std::stringstream ss;
         ss  << tempMesh.second
@@ -192,14 +193,33 @@ uint32_t MeshManager::compileMesh(uint32_t ID){
 }
 
 gpuMesh& MeshManager::getGPUMesh(uint32_t id){
-    if constexpr (staticConfig::errorLogging){
-        if(meshInfoObjects.find(id) == meshInfoObjects.end()){
-            std::cerr << "Mesh info with ID: " << id << " not found" << std::endl;
-            static gpuMesh emptyMesh;
-            return emptyMesh;
-        }
+    auto it = meshInfoObjects.find(id);
+    if(it == meshInfoObjects.end()){
+        std::cerr << "Mesh info with ID: " << id << " not found!" << std::endl;
+        static gpuMesh emptyMesh;
+        return emptyMesh;
     }
-    uint32_t gpuMeshID = meshInfoObjects[id].gpuMeshID.value();
+
+    uint32_t gpuMeshID = it->second.gpuMeshID.value();
     gpuMesh& mesh = cachedGPUMeshes.at(gpuMeshID);
     return mesh;
+}
+
+meshInfo& MeshManager::getMeshInfo(uint32_t id){
+    auto it = meshInfoObjects.find(id);
+    if(it == meshInfoObjects.end()){
+        std::cerr << "Mesh with ID: " << id << " not found!" << std::endl;
+        static meshInfo emptyInfo;
+        return emptyInfo;
+    }
+
+    return it->second;
+}
+
+std::vector<meshInfo*> MeshManager::getAllMeshInfo(){
+    std::vector<meshInfo*> returnVector;
+    for(auto& meshInfoObj : meshInfoObjects){
+        returnVector.push_back(&meshInfoObj.second);
+    }
+    return returnVector;
 }

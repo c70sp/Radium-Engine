@@ -24,8 +24,8 @@ void Game::init(){
 
     auto& sm = ENGINE->getShaderManager();
     auto& tm = ENGINE->getTextManager();
-    GLuint textProg = sm.getProgram("text", "v_UItext.glsl", "f_UItext.glsl");
-    tm.loadFont("C:/dev/projects/C++/OpenGL/manIdk/.assets/fonts/Roboto-VariableFont_wdth,wght.ttf", textProg, 16);
+    ProgramInfo textProg = sm.getProgram("text", "v_UItext.glsl", "f_UItext.glsl");
+    tm.loadFont("C:/dev/projects/C++/OpenGL/manIdk/.assets/fonts/Roboto-VariableFont_wdth,wght.ttf", textProg.id, 16);
 }
 
 void Game::checkKeys(){

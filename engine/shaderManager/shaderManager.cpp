@@ -159,25 +159,25 @@ ProgramInfo ShaderManager::createNewProgram(std::vector<ShaderInfo> shaders, con
 }
 
 ProgramInfo ShaderManager::getShaderProgram(std::vector<std::string> shaderNames, const std::string& name){
-    std::unordered_set<std::string> shaderNameSet(shaderNames.begin(), shaderNames.end());
+    // Convert to set to remove duplicates
+    std::unordered_set<std::string> uniqueShaderNames(shaderNames.begin(), shaderNames.end());
     std::vector<ShaderInfo> shadersForProg;
 
     for(const auto& shader : mShaders){
-        if(shaderNameSet.count(shader.name)){
+        if(uniqueShaderNames.count(shader.name)){
             shadersForProg.push_back(shader);
-            // std::cout << "Found shader: " << shader.name << std::endl;
+            std::cout << "Found shader: " << shader.name << std::endl;
+            uniqueShaderNames.erase(shader.name); // Remove found shader
         }
     }
 
-    // Check for missing shaders
-    if (shadersForProg.size() != shaderNames.size()) {
+    // Check which unique shaders are missing
+    if (!uniqueShaderNames.empty()) {
         std::cerr << "[ShaderManager] Error: Missing shaders for program \"" << name << "\"\n";
-        for (const auto& requested : shaderNames) {
-            bool found = std::any_of(shadersForProg.begin(), shadersForProg.end(), [&](const ShaderInfo& s){ return s.name == requested; });
-            if (!found)
-                std::cerr << "  - Missing shader: \"" << requested << "\"\n";
+        for (const auto& missing : uniqueShaderNames) {
+            std::cerr << "  - Missing shader: \"" << missing << "\"\n";
         }
-        return {}; // return an empty ProgramInfo (id = 0)
+        return {};
     }
 
     ProgramInfo* existing = findExistingProgram(shadersForProg, name);

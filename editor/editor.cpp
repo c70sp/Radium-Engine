@@ -38,7 +38,7 @@ void Editor::init(){
     Mesh3D test = mEngine.getMeshManager().getModel("Hull");
 
     mEngine.getShaderManager().compileAllShaders();
-    GLuint basicProgram = mEngine.getShaderManager().getProgram("basic", "v_vert.glsl", "f_frag.glsl");
+    ProgramInfo basicProgram = mEngine.getShaderManager().getProgram("basic", "v_vert.glsl", "f_frag.glsl");
 
     mScene1 = mSceneManager.createScene("Scene1");
     // Entity* ent = mScene1->createEntity("ent");
@@ -55,7 +55,7 @@ void Editor::init(){
     // mesh.meshName = test.name;
 
     // MaterialComponent mat;
-    // mat.programID = basicProgram;
+    // mat.programID = basicProgram.id;
     // mat.programName = "basic";
     // mScene1->addComponent(*ent, trans);
     // mScene1->addComponent(*ent, mesh);
@@ -231,8 +231,8 @@ void Editor::createSingleMesh(){
 
     desc.transform = TransformComponent{};
     desc.material = MaterialComponent{};
-    GLuint basicProgram = mEngine.getShaderManager().getProgram("basic", "v_vert.glsl", "f_frag.glsl");
-    desc.material.programID = basicProgram;
+    ProgramInfo basicProgram = mEngine.getShaderManager().getProgram("basic", "v_vert.glsl", "f_frag.glsl");
+    desc.material.programID = basicProgram.id;
 
     // ENGINE->getEventSystem().emit<SpawnEntityEvent>(desc);
 }
@@ -242,7 +242,7 @@ void Editor::render(){
 
     if(editorUI.viewportChanged) resizeViewport();
 
-    drawAllToFBO();
+    // drawAllToFBO();
     drawAllToFBONew();
 
     GLuint* mColorTexPointer = &mColorTex;

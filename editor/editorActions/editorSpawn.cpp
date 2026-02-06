@@ -20,8 +20,9 @@ void EditorActions::spawnEntity(){
     desc.transform.pos.z = randNum() * 5;
 
     desc.material = MaterialComponent{};
-    GLuint basicProgram = ENGINE->getShaderManager().getProgram("basic", "v_vert.glsl", "f_frag.glsl");
-    desc.material.programID = basicProgram;
+    ProgramInfo basicProgram = ENGINE->getShaderManager().getProgram("basic", "v_vert.glsl", "f_frag.glsl");
+    desc.material.programID = basicProgram.id;
+    desc.material.programName = basicProgram.name;
 
     /**
      * compileMesh can take both ID and name.

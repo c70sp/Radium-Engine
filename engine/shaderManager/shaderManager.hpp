@@ -27,7 +27,7 @@ class ShaderManager{
         // Kann ich später fixen
 
         template<typename... ShaderNames>
-        GLuint getProgram(const std::string& programName, const ShaderNames&... filenames){
+        ProgramInfo getProgram(const std::string& programName, const ShaderNames&... filenames){
             std::vector<std::string> shadersForProgram = {filenames...};
 
             ProgramInfo prog = getShaderProgram(shadersForProgram, programName);
@@ -36,7 +36,29 @@ class ShaderManager{
                 std::cerr << "[ShaderManager] Fatal: Program \"" << programName << "\" could not be created (missing or invalid shaders)\n";
             }
 
-            return prog.id;
+            return prog;
+        };
+
+        ProgramInfo getProgramFromArray(const std::string& programName, const std::vector<std::string> filenames){
+            ProgramInfo prog = getShaderProgram(filenames, programName);
+
+            if(prog.id == 0){
+                std::cerr << "[ShaderManager] Fatal: Program \"" << programName << "\" could not be created (missing or invalid shaders)\n";
+            }
+
+            return prog;
+        };
+
+        uint32_t getProgramIDFromName(const std::string& name){
+            for(const auto& prog : mShaderPrograms){
+                if(prog.name == name) return prog.id;
+            }
+            std::cerr << "Program with name: \"" << name << "\" not found!\n";
+            return 0;
+        }
+
+        std::vector<ProgramInfo>* getAllPrograms(){
+            return &mShaderPrograms;
         };
 
 

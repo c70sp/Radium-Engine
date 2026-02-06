@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <filesystem>
 
 // 3rd party libs
 #include <glad/glad.h>
@@ -75,6 +76,7 @@ struct meshInfo{
     std::optional<uint32_t> gpuMeshID;
     std::string displayName; // from OBJ objects
     std::string internalName; // display + cpuMeshID
+    std::filesystem::path path;
 };
 
 /**

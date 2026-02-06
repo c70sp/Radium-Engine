@@ -78,6 +78,17 @@ void EditorUI::renderDockspace(){
     if(ImGui::BeginMenuBar()){
         if(ImGui::BeginMenu("File")){
             ImGui::MenuItem("New");
+
+            if(ImGui::MenuItem("Save Scene")){
+                std::cout << "> SAVING event sent!\n";
+                ENGINE->getEventSystem().emit<SaveSceneEvent>();
+            }
+            
+            if(ImGui::MenuItem("Load Scene")){
+                std::cout << "> LOADING event sent!\n";
+                ENGINE->getEventSystem().emit<LoadSceneEvent>();
+            }
+
             ImGui::EndMenu();
         }
         if(ImGui::BeginMenu("Window")){

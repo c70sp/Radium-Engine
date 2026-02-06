@@ -49,6 +49,10 @@ class MeshManager{
         uint32_t compileMesh(const std::string& name);
 
         gpuMesh& getGPUMesh(uint32_t id);
+        meshInfo& getMeshInfo(uint32_t id);
+        std::vector<meshInfo*> getAllMeshInfo();
+
+        // std::unordered_map<uint32_t, meshInfo>& getAllMeshInfoObjects(){return meshInfoObjects;};
     private:
         uint32_t lastMesh = 0;
 

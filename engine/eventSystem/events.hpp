@@ -5,7 +5,9 @@ enum class EventType{
     MouseMove,
     MouseScroll,
     Keypress,
-    SpawnEntity
+    SpawnEntity,
+    SaveScene,
+    LoadScene
 };
 
 struct Event{
@@ -58,11 +60,25 @@ struct KeyPressEvent : public Event{
 
 //!? vvvvvvvvvvvvvvvvvvvv OBJECT RELATED EVENTS vvvvvvvvvvvvvvvvvvvv
 // vvvvvvvvvvvvvvvvvvvv Object spawn vvvvvvvvvvvvvvvvvvvv
-
 struct SpawnEntityEvent : public Event{
     static constexpr EventType type = EventType::SpawnEntity;
 
     EntityDesc entityDesc;
 
     SpawnEntityEvent(EntityDesc ed) : Event{EventType::SpawnEntity}, entityDesc(std::move(ed)) {};
+};
+
+//!? vvvvvvvvvvvvvvvvvvvv SERIALIZATION EVENTS vvvvvvvvvvvvvvvvvvvv
+// vvvvvvvvvvvvvvvvvvvv Save Scene vvvvvvvvvvvvvvvvvvvv
+struct SaveSceneEvent : public Event{
+    static constexpr EventType type = EventType::SaveScene;
+
+    SaveSceneEvent() : Event{EventType::SaveScene} {};
+};
+
+// vvvvvvvvvvvvvvvvvvvv Load Scene vvvvvvvvvvvvvvvvvvvv
+struct LoadSceneEvent : public Event{
+    static constexpr EventType type = EventType::LoadScene;
+
+    LoadSceneEvent() : Event{EventType::LoadScene} {};
 };

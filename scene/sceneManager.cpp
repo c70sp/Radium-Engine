@@ -12,3 +12,18 @@ Scene* SceneManager::getScene(uint32_t index){
 void SceneManager::setActiveScene(uint32_t index){
     mActiveScene = index;
 }
+
+void SceneManager::addEventListeners(){
+    ENGINE->getEventSystem().subscribe<SaveSceneEvent>([this](const SaveSceneEvent& e){
+        sceneSerializer.saveScene(
+                *activeScene(),
+                "C:\\dev\\projects\\C++\\OpenGL\\Radium Engine\\.assets\\savedScenes\\save1.json");
+    });
+            
+    ENGINE->getEventSystem().subscribe<LoadSceneEvent>([this](const LoadSceneEvent& e){
+        mScenes.emplace_back();
+        auto& scene = mScenes.back();
+        setActiveScene(std::distance(mScenes.data(), &scene)); // TODO: <= rework the scene setting system. Or similar.
+        sceneSerializer.loadScene(scene, "C:\\dev\\projects\\C++\\OpenGL\\Radium Engine\\.assets\\savedScenes\\save1.json");
+    });
+}
